@@ -14,8 +14,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autos.GabesDadsAuto;
+import frc.robot.autos.Gawrsh;
 import frc.robot.autos.MachoGrande;
 import frc.robot.autos.Mammoth;
+import frc.robot.autos.NewMachoGrande;
+import frc.robot.autos.NewNewMachoGrande;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
@@ -127,6 +131,14 @@ public class RobotContainer {
                 Runaway runaway = new Runaway(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem,
                                 shooterSubsystem, pincerSubsystem);
 
+                NewMachoGrande newMachoGrande = new NewMachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
+                NewNewMachoGrande newNewMachoGrande = new NewNewMachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
+                GabesDadsAuto gabesDadsAuto = new GabesDadsAuto(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
+                Gawrsh gawrsh = new Gawrsh(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
                 m_chooser.addOption("Sawmill", sawmill);
@@ -135,6 +147,10 @@ public class RobotContainer {
                 m_chooser.addOption("Macho Grande", machoGrande);
                 m_chooser.addOption("Runaway", runaway);
                 m_chooser.addOption("Norm", norm);
+                m_chooser.addOption("New Macho Grande", newMachoGrande);
+                m_chooser.addOption("New New Macho Grande", newNewMachoGrande);
+                m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
+                m_chooser.addOption("Gawrsh", gawrsh);
 
                 SmartDashboard.putData("AutoChooser", m_chooser);
 

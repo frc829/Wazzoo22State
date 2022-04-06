@@ -32,7 +32,7 @@ public final class Constants {
 
     public static final class Intake {
         public static final int kPort = 21;
-        public static final double kSpeed = 0.7;
+        public static final double kSpeed = 1;
     }
 
     public static final class Lifter {
