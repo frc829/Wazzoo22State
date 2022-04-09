@@ -27,7 +27,7 @@ public class FarShotDialedRPM extends ParallelCommandGroup {
     InstantCommand setAngle = new InstantCommand(pincerSubsystem::PincerOpen, pincerSubsystem);
     InstantCommand powerHood = new InstantCommand(poweredHoodSubsystem::SpinForwards, poweredHoodSubsystem);
     WaitUntilCommand waitUntilShooterAtSpeed = new WaitUntilCommand(() -> shooterSubsystem
-        .getSpeed() >= Constants.Shooter.kFarShotRPM / Constants.Shooter.kShooterRPMToTicksPerDS == true);
+        .getSpeed() >= RPM / Constants.Shooter.kShooterRPMToTicksPerDS == true);
     RunCommand singulatorFire = new RunCommand(() -> singulatorSubsystem.SpinForward(), singulatorSubsystem);
     RunCommand liftIn = (new RunCommand(() -> lifterSubsystem.SpinForwards(), lifterSubsystem));
     RunCommand intakeIn = (new RunCommand(() -> intakeSubsystem.SpinForwards(), intakeSubsystem));

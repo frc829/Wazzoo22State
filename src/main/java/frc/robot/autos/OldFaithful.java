@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.FarShot;
+import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.PincerSubsystem;
+import frc.robot.subsystems.PoweredHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SingulatorSubsystem;
 
@@ -31,14 +32,15 @@ public class OldFaithful extends SequentialCommandGroup {
             LifterSubsystem lifterSubsystem,
             SingulatorSubsystem singulatorSubsystem,
             ShooterSubsystem shooterSubsystem,
-            PincerSubsystem pincerSubsystem) {
+            PincerSubsystem pincerSubsystem, 
+            PoweredHoodSubsystem poweredHoodSubsystem) {
 
 
         
         Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-        ParallelRaceGroup shootHigh1 = new FarShot(shooterSubsystem, singulatorSubsystem, lifterSubsystem,
-                intakeSubsystem, pincerSubsystem)
-                        .withTimeout(1.5);
+        ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+        lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
+                        .withTimeout(1.3);
         InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
         InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                 driveSubsystem);
@@ -48,7 +50,7 @@ public class OldFaithful extends SequentialCommandGroup {
                 new Pose2d(1.05, 0, Rotation2d.fromDegrees(0)),
                 driveSubsystem);
         DriveAuto grab3 = new DriveAuto(
-                new Pose2d(0.461, 0, Rotation2d.fromDegrees(-13)),
+                new Pose2d(1.05, 0, Rotation2d.fromDegrees(-13)),
                 driveSubsystem);
 
         SequentialCommandGroup path1 = new SequentialCommandGroup(grab2, grab3);

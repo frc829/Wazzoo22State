@@ -37,12 +37,12 @@ public final class Constants {
 
     public static final class Lifter {
         public static final int kPort = 22;
-        public static final double kSpeed = 1;
+        public static final double kSpeed = 0.8;
     }
 
     public static final class Singulator {
         public static final int kPort = 23;
-        public static final double kSpeed = 1;
+        public static final double kSpeed = 0.8;
     }
 
     public static final class Shooter {
@@ -52,7 +52,7 @@ public final class Constants {
         public static final double kLowShot = 0.35;
 
         public static final double kHighShotRPM = 2400;
-        public static final double kLowShotRPM = 1400;
+        public static final double kLowShotRPM = 1500;
         public static final double kFarShotRPM = 3950;
 
         public static final double kHighShotTicksPerDS = 13900;
@@ -435,7 +435,7 @@ public final class Constants {
     public static final class PoweredHood{
         public static final int kPort = 25;
         //public static final double speed = 0.7;
-        public static final double speed = 0.7;
+        public static final double speed = 0.6;
 
     }
 }

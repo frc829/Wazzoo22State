@@ -42,8 +42,6 @@ public class Aim extends SequentialCommandGroup {
       lifterSubsystem, 
       intakeSubsystem, 
       singulatorSubsystem);
-    WaitCommand waitCommand1 = new WaitCommand(1);
-    WaitCommand waitCommand2 = new WaitCommand(1.5);
     ShootFromDistance shoot = new ShootFromDistance(
       shooterSubsystem, 
       limelightSubsystem, 
@@ -52,9 +50,9 @@ public class Aim extends SequentialCommandGroup {
       lifterSubsystem, 
       intakeSubsystem,
       singulatorSubsystem);
-    ParallelRaceGroup shoot1AndWait = new ParallelRaceGroup(startShoot, waitCommand1);
-    ParallelRaceGroup shootandWait = new ParallelRaceGroup(shoot, waitCommand2);
+    ParallelRaceGroup aimAndChargeShooter = new ParallelRaceGroup(aim, startShoot);
+    ParallelRaceGroup shootandWait = new ParallelRaceGroup(shoot);
     InstantCommand shooterOff = new InstantCommand(() -> shooterSubsystem.Off(), shooterSubsystem);
-    addCommands(aim, shoot1AndWait, shootandWait, shooterOff);
+    addCommands(aimAndChargeShooter, shootandWait, shooterOff);
   }
 }

@@ -132,6 +132,12 @@ public class ShooterSubsystem extends SubsystemBase {
     talonFXPort.set(ControlMode.Follower, 20);
   }
 
+  public void setDefaultSpeed() {
+    this.shooterSpeed = 1500 * Constants.Shooter.kShooterRPMToTicksPerDS;
+    talonFXStarboard.set(ControlMode.Velocity, this.shooterSpeed);
+    talonFXPort.set(ControlMode.Follower, 20);
+  }
+
   public void setSpeedDialed(double RPM) {
     this.shooterSpeed = RPM * Constants.Shooter.kShooterRPMToTicksPerDS;
     talonFXStarboard.set(ControlMode.Velocity, this.shooterSpeed);

@@ -33,7 +33,7 @@ public class DriveAuto6 extends CommandBase {
     yController.setTolerance(0.05);
 
     this.thetaController = new PIDController(
-        0.03,
+        0.025,
         0,
         0);
     thetaController.enableContinuousInput(-180, 180);

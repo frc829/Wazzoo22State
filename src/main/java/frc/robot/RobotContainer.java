@@ -18,12 +18,9 @@ import frc.robot.autos.GabesDadsAuto;
 import frc.robot.autos.Gawrsh;
 import frc.robot.autos.MachoGrande;
 import frc.robot.autos.Mammoth;
-import frc.robot.autos.NewMachoGrande;
-import frc.robot.autos.NewNewMachoGrande;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
-import frc.robot.autos.Runaway;
 import frc.robot.autos.Sawmill;
 import frc.robot.autos.sequences.Aim;
 import frc.robot.commands.DriveManual;
@@ -99,7 +96,7 @@ public class RobotContainer {
 
                 // Default Commands
                 driveSubsystem.setDefaultCommand(new DriveManual(driveSubsystem, driverControls));
-                shooterSubsystem.setDefaultCommand(new RunCommand(() -> shooterSubsystem.Off(), shooterSubsystem));
+                shooterSubsystem.setDefaultCommand(new RunCommand(() -> shooterSubsystem.setDefaultSpeed(), shooterSubsystem));
                 winchSubsystem.setDefaultCommand(
                                 new RunCommand(() -> winchSubsystem.Winch(operatorControls), winchSubsystem));
                 singulatorSubsystem.setDefaultCommand(
@@ -114,26 +111,18 @@ public class RobotContainer {
                                 shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
                 OldFaithful oldFaithful = new OldFaithful(driveSubsystem, intakeSubsystem, lifterSubsystem,
-                                singulatorSubsystem, shooterSubsystem, pincerSubsystem);
+                                singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
                 Sawmill sawmill = new Sawmill(driveSubsystem, intakeSubsystem, lifterSubsystem,
-                                singulatorSubsystem, shooterSubsystem, pincerSubsystem);
+                                singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
                 Mammoth mammoth = new Mammoth(driveSubsystem, intakeSubsystem, lifterSubsystem,
-                                singulatorSubsystem, shooterSubsystem, pincerSubsystem);
+                                singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
                 Rosie rosie = new Rosie(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem,
-                                shooterSubsystem, pincerSubsystem);
+                                shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
-                MachoGrande machoGrande = new MachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem,
-                                singulatorSubsystem, shooterSubsystem, pincerSubsystem);
-
-                Runaway runaway = new Runaway(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem,
-                                shooterSubsystem, pincerSubsystem);
-
-                NewMachoGrande newMachoGrande = new NewMachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
-
-                NewNewMachoGrande newNewMachoGrande = new NewNewMachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+                MachoGrande machoGrande = new MachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
                 GabesDadsAuto gabesDadsAuto = new GabesDadsAuto(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
@@ -145,12 +134,9 @@ public class RobotContainer {
                 m_chooser.addOption("Mammoth", mammoth);
                 m_chooser.addOption("Rosie", rosie);
                 m_chooser.addOption("Macho Grande", machoGrande);
-                m_chooser.addOption("Runaway", runaway);
-                m_chooser.addOption("Norm", norm);
-                m_chooser.addOption("New Macho Grande", newMachoGrande);
-                m_chooser.addOption("New New Macho Grande", newNewMachoGrande);
                 m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
                 m_chooser.addOption("Gawrsh", gawrsh);
+                m_chooser.addOption("Norm", norm);
 
                 SmartDashboard.putData("AutoChooser", m_chooser);
 
