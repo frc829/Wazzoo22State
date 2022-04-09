@@ -34,7 +34,7 @@ public class DriveAuto2 extends CommandBase {
     yController.setTolerance(0.05);
 
     this.thetaController = new PIDController(
-        AutoConstants.Theta.kP,
+        0.05,
         0,
         0);
     thetaController.enableContinuousInput(-180, 180);

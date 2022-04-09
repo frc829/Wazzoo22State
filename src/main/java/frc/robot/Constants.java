@@ -37,12 +37,12 @@ public final class Constants {
 
     public static final class Lifter {
         public static final int kPort = 22;
-        public static final double kSpeed = 0.8;
+        public static final double kSpeed = 0.9;
     }
 
     public static final class Singulator {
         public static final int kPort = 23;
-        public static final double kSpeed = 0.8;
+        public static final double kSpeed = 0.9;
     }
 
     public static final class Shooter {
@@ -333,7 +333,7 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double maxSpeed = 3.25;
+        public static final double maxSpeed = 2.5;
         public static final double maxSpeed2 = 3.5;
 
         public static final class X {

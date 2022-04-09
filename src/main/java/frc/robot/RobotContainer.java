@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.GabesDadsAuto;
 import frc.robot.autos.Gawrsh;
 import frc.robot.autos.MachoGrande;
+import frc.robot.autos.MachoGrande2;
 import frc.robot.autos.Mammoth;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
@@ -128,12 +129,15 @@ public class RobotContainer {
 
                 Gawrsh gawrsh = new Gawrsh(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
+                MachoGrande2 machoGrande2 = new MachoGrande2(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
                 m_chooser.addOption("Sawmill", sawmill);
                 m_chooser.addOption("Mammoth", mammoth);
                 m_chooser.addOption("Rosie", rosie);
                 m_chooser.addOption("Macho Grande", machoGrande);
+                m_chooser.addOption("Macho Grande2", machoGrande2);
                 m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
                 m_chooser.addOption("Gawrsh", gawrsh);
                 m_chooser.addOption("Norm", norm);

@@ -16,8 +16,6 @@ import frc.robot.commands.DriveAuto2;
 import frc.robot.commands.DriveAuto3;
 import frc.robot.commands.DriveAuto5;
 import frc.robot.commands.DriveAuto6;
-import frc.robot.commands.DriveAuto7;
-import frc.robot.commands.DriveAuto8;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
@@ -31,10 +29,10 @@ import frc.robot.subsystems.SingulatorSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class MachoGrande extends SequentialCommandGroup {
+public class MachoGrande2 extends SequentialCommandGroup {
         /** Creates a new OldFaithful. */
 
-        public MachoGrande(
+        public MachoGrande2(
                         DriveSubsystem driveSubsystem,
                         IntakeSubsystem intakeSubsystem,
                         LifterSubsystem lifterSubsystem,
@@ -51,7 +49,7 @@ public class MachoGrande extends SequentialCommandGroup {
                 RunCommand charge3 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
                 ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                                .withTimeout(1.2);
+                                                .withTimeout(0.92);
                 InstantCommand turnShooterOn = new InstantCommand(() -> shooterSubsystem.setSpeedFar(),
                                 driveSubsystem);
                 ParallelRaceGroup shootHigh2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
@@ -69,21 +67,22 @@ public class MachoGrande extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                DriveAuto3 grab2 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
+                DriveAuto grab3 = new DriveAuto(
+                                new Pose2d(1.05, 0, Rotation2d.fromDegrees(-13)),
                                 driveSubsystem);
-                DriveAuto3 grab3 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
+
+                DriveAuto grab2 = new DriveAuto(
+                                new Pose2d(1.05, 0, Rotation2d.fromDegrees(-75)),
                                 driveSubsystem);
-                DriveAuto7 goToGoal1 = new DriveAuto7(
-                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
+                DriveAuto6 goToGoal1 = new DriveAuto6(
+                                new Pose2d(-0.25, -2.62, Rotation2d.fromDegrees(-75)),
                                 driveSubsystem);
-                DriveAuto7 goToGoal2 = new DriveAuto7(
-                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
+                DriveAuto5 goToGoal2 = new DriveAuto5(
+                                new Pose2d(-0.25, -2.62, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
                 DriveAuto2 goToGoal3 = new DriveAuto2(
-                                new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
+                                new Pose2d(-0.15, -6.98, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
                 // DriveAuto goToGoal4 = new DriveAuto(
                 // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
@@ -98,7 +97,7 @@ public class MachoGrande extends SequentialCommandGroup {
                 // driveSubsystem);
 
                 DriveAuto goToGoal5 = new DriveAuto(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
+                                new Pose2d(-0.5, -5.0, Rotation2d.fromDegrees(-50)),
                                 driveSubsystem);
 
                 SequentialCommandGroup path1 = new SequentialCommandGroup(
@@ -110,7 +109,7 @@ public class MachoGrande extends SequentialCommandGroup {
                                 load1,
                                 path1);
 
-                SequentialCommandGroup path2 = new SequentialCommandGroup(goToGoal1, goToGoal2);
+                SequentialCommandGroup path2 = new SequentialCommandGroup(grab2, goToGoal1, goToGoal2);
                 ParallelRaceGroup travelPathAndLoad2 = new ParallelRaceGroup(
                                 charge2,
                                 load2,

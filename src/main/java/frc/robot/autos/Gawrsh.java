@@ -54,24 +54,28 @@ public class Gawrsh extends SequentialCommandGroup {
                                 driveSubsystem);
 
                 DriveAuto grab2 = new DriveAuto(
-                                new Pose2d(2.1, 0, Rotation2d.fromDegrees(0)),
+                                new Pose2d(2.2, 0, Rotation2d.fromDegrees(0)),
                                 driveSubsystem);
 
                 DriveAuto grab = new DriveAuto(
                                 new Pose2d(2.2, 0, Rotation2d.fromDegrees(40)),
                                 driveSubsystem);
                 DriveAuto grab3 = new DriveAuto(
-                                new Pose2d(2.2, 0, Rotation2d.fromDegrees(100)),
+                                new Pose2d(2.2, 0, Rotation2d.fromDegrees(70)),
+                                driveSubsystem);
+
+                DriveAuto grab99 = new DriveAuto(
+                                new Pose2d(0, 3, Rotation2d.fromDegrees(70)),
                                 driveSubsystem);
 
                 DriveAuto grab4 = new DriveAuto(
-                                new Pose2d(2.2, 0, Rotation2d.fromDegrees(35)),
+                                new Pose2d(0, 3, Rotation2d.fromDegrees(70)),
                                 driveSubsystem);
 
                 WaitCommand waitCommand = new WaitCommand(2);
 
                 SequentialCommandGroup path1 = new SequentialCommandGroup(grab2, grab);
-                SequentialCommandGroup path2 = new SequentialCommandGroup(grab3, waitCommand, grab4);
+                SequentialCommandGroup path2 = new SequentialCommandGroup(grab3, grab99, waitCommand, grab4);
                 ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
                                 load1,
                                 path1);

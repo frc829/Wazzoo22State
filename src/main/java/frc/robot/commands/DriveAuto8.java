@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveAuto6 extends CommandBase {
+public class DriveAuto8 extends CommandBase {
   private final DriveSubsystem driveSubSystem;
   private final PIDController xController;
   private final PIDController yController;
@@ -25,15 +25,19 @@ public class DriveAuto6 extends CommandBase {
   private double xOutput = 0;
   private double yOutput = 0;
   private double thetaOutput = 0;
+  
+  private boolean xSet = false;
+  private boolean ySet = false;
+  private boolean thetaSet = false;
 
-  public DriveAuto6(Pose2d targetPosition, DriveSubsystem driveSubsystem) {
-    xController = new PIDController(1.2, 0, 0);
+  public DriveAuto8(Pose2d targetPosition, DriveSubsystem driveSubsystem) {
+    xController = new PIDController(1.0, 0, 0);
     xController.setTolerance(0.05);
-    yController = new PIDController(1.2, 0, 0);
+    yController = new PIDController(1.0, 0, 0);
     yController.setTolerance(0.05);
 
     this.thetaController = new PIDController(
-        0.025,
+        0.05,
         0,
         0);
     thetaController.enableContinuousInput(-180, 180);
@@ -65,6 +69,13 @@ public class DriveAuto6 extends CommandBase {
     this.yOutput = yController.calculate(this.currentPosition.getY());
     this.thetaOutput = this.thetaController.calculate(this.currentPosition.getRotation().getDegrees());
 
+    xSet = xSet ? true : xController.atSetpoint();
+    ySet = ySet ? true : yController.atSetpoint();
+    thetaSet = thetaSet ? true : thetaController.atSetpoint();
+
+    xOutput = xSet ? 0 : xOutput;
+    yOutput = ySet ? 0 : yOutput;
+    thetaOutput = thetaSet ? 0 : thetaOutput;
     SwerveModuleState[] swerveModuleStates = this.driveSubSystem.GetModuleStates(-this.xOutput, -this.yOutput,
         this.thetaOutput);
     this.driveSubSystem.setSwerveModules(swerveModuleStates);
@@ -80,6 +91,6 @@ public class DriveAuto6 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (xController.atSetpoint() && yController.atSetpoint() && thetaController.atSetpoint());
+    return (xSet && ySet && thetaSet);
   }
 }
