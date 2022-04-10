@@ -22,6 +22,7 @@ import frc.robot.autos.Mammoth;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
+import frc.robot.autos.Runaway;
 import frc.robot.autos.Sawmill;
 import frc.robot.autos.sequences.Aim;
 import frc.robot.commands.DriveManual;
@@ -131,6 +132,8 @@ public class RobotContainer {
 
                 MachoGrande2 machoGrande2 = new MachoGrande2(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
+                Runaway runaway = new Runaway(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
                 m_chooser.addOption("Sawmill", sawmill);
@@ -140,6 +143,7 @@ public class RobotContainer {
                 m_chooser.addOption("Macho Grande2", machoGrande2);
                 m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
                 m_chooser.addOption("Gawrsh", gawrsh);
+                m_chooser.addOption("Runaway", runaway);
                 m_chooser.addOption("Norm", norm);
 
                 SmartDashboard.putData("AutoChooser", m_chooser);

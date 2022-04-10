@@ -40,17 +40,17 @@ public class OldFaithful extends SequentialCommandGroup {
         Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
         ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
         lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                        .withTimeout(1.3);
+                        .withTimeout(2);
         InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
         InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                 driveSubsystem);
         InstantCommand setFieldCentric = new InstantCommand(() -> driveSubsystem.setFieldCentric(true), driveSubsystem);
         InstantCommand setAbsolute = new InstantCommand(() -> driveSubsystem.setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))), driveSubsystem);
         DriveAuto grab2 = new DriveAuto(
-                new Pose2d(1.05, 0, Rotation2d.fromDegrees(0)),
+                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
                 driveSubsystem);
         DriveAuto grab3 = new DriveAuto(
-                new Pose2d(1.05, 0, Rotation2d.fromDegrees(-13)),
+                new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
                 driveSubsystem);
 
         SequentialCommandGroup path1 = new SequentialCommandGroup(grab2, grab3);

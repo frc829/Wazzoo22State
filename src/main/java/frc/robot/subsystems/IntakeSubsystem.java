@@ -43,6 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
     canSparkMax.set(Constants.Intake.kSpeed);
   }
 
+
   public void Off() {
     canSparkMax.set(0);
   }

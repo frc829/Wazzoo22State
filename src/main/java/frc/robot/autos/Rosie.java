@@ -8,9 +8,17 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.FarShot;
+import frc.robot.commands.DriveAuto2;
+import frc.robot.commands.DriveAuto3;
+import frc.robot.commands.DriveAuto5;
+import frc.robot.commands.DriveAuto6;
+import frc.robot.commands.DriveAuto7;
+import frc.robot.commands.DriveAuto8;
+import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -19,7 +27,6 @@ import frc.robot.subsystems.PincerSubsystem;
 import frc.robot.subsystems.PoweredHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SingulatorSubsystem;
-import frc.robot.commands.FarShotDialedRPM;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -38,12 +45,21 @@ public class Rosie extends SequentialCommandGroup {
 
                 Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
                 Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                ParallelRaceGroup shootHigh1 = new FarShot(shooterSubsystem, singulatorSubsystem, lifterSubsystem,
-                                intakeSubsystem, pincerSubsystem)
-                                                .withTimeout(1.5);
-                ParallelRaceGroup shootHigh23 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                Load load3 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
+                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
+                RunCommand charge3 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
+                ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
+                                                .withTimeout(1.2);
+                InstantCommand turnShooterOn = new InstantCommand(() -> shooterSubsystem.setSpeedFar(),
+                                driveSubsystem);
+                ParallelRaceGroup shootHigh2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
+                                                .withTimeout(2);
+                ParallelRaceGroup shootHigh3 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 3600)
-                                                .withTimeout(5);
+                                                .withTimeout(1);
                 InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
                 InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                                 driveSubsystem);
@@ -53,37 +69,79 @@ public class Rosie extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                DriveAuto grab2 = new DriveAuto(
-                                new Pose2d(1.05, 0, Rotation2d.fromDegrees(0)),
+                DriveAuto3 grab2 = new DriveAuto3(
+                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
                                 driveSubsystem);
-                DriveAuto grab3 = new DriveAuto(
-                                new Pose2d(0.461, 0, Rotation2d.fromDegrees(-13)),
+                DriveAuto3 grab3 = new DriveAuto3(
+                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
                                 driveSubsystem);
-                DriveAuto goToGoal1 = new DriveAuto(
-                                new Pose2d(0, -2.70, Rotation2d.fromDegrees(-80)),
+                DriveAuto7 goToGoal1 = new DriveAuto7(
+                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
-                DriveAuto goToGoal2 = new DriveAuto(
-                                new Pose2d(-0.60, -1.50, Rotation2d.fromDegrees(-55)),
+                DriveAuto7 goToGoal2 = new DriveAuto7(
+                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
-                SequentialCommandGroup path1 = new SequentialCommandGroup(grab2, grab3);
+                DriveAuto2 goToGoal3 = new DriveAuto2(
+                                new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
+                                driveSubsystem);
+                // DriveAuto goToGoal4 = new DriveAuto(
+                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
+                // driveSubsystem);
+
+                DriveAuto2 goToGoal4 = new DriveAuto2(
+                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-50)),
+                                driveSubsystem);
+
+                // DriveAuto goToGoal5 = new DriveAuto(
+                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
+                // driveSubsystem);
+
+                DriveAuto goToGoal5 = new DriveAuto(
+                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
+                                driveSubsystem);
+
+                SequentialCommandGroup path1 = new SequentialCommandGroup(
+                                // grab2
+                                // ,
+                                grab3);
                 ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
+                                charge1,
                                 load1,
                                 path1);
 
                 SequentialCommandGroup path2 = new SequentialCommandGroup(goToGoal1, goToGoal2);
                 ParallelRaceGroup travelPathAndLoad2 = new ParallelRaceGroup(
+                                charge2,
                                 load2,
                                 path2);
+
+                WaitCommand waitCommand = new WaitCommand(0);
+
+                SequentialCommandGroup path3 = new SequentialCommandGroup(
+                                goToGoal3,
+                                // waitCommand
+                                // ,
+                                // goToGoal4
+                                // ,
+                                goToGoal5);
+                ParallelRaceGroup travelPathAndLoad3 = new ParallelRaceGroup(
+                                charge3,
+                                load3,
+                                path3);
 
                 addCommands(
                                 resetGyro,
                                 resetOdometry,
                                 setFieldCentric,
                                 setAbsolute,
+                                turnShooterOn,
                                 travelPathAndLoad1,
                                 shootHigh1,
                                 travelPathAndLoad2,
-                                shootHigh23);
+                                shootHigh2
+                                // travelPathAndLoad3,
+                                // shootHigh3
+                                );
         }
 }

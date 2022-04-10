@@ -31,10 +31,10 @@ import frc.robot.subsystems.SingulatorSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class MachoGrande2 extends SequentialCommandGroup {
+public class Runaway extends SequentialCommandGroup {
         /** Creates a new OldFaithful. */
 
-        public MachoGrande2(
+        public Runaway(
                         DriveSubsystem driveSubsystem,
                         IntakeSubsystem intakeSubsystem,
                         LifterSubsystem lifterSubsystem,
@@ -45,21 +45,16 @@ public class MachoGrande2 extends SequentialCommandGroup {
 
                 Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
                 Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                Load load3 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
                 RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
-                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
-                RunCommand charge3 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
+                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
                 ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
                                                 .withTimeout(1.2);
                 InstantCommand turnShooterOn = new InstantCommand(() -> shooterSubsystem.setSpeedFar(),
                                 driveSubsystem);
                 ParallelRaceGroup shootHigh2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                                .withTimeout(0.6);
-                ParallelRaceGroup shootHigh3 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 3600)
-                                                .withTimeout(1);
+                                                .withTimeout(2);
                 InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
                 InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                                 driveSubsystem);
@@ -69,42 +64,22 @@ public class MachoGrande2 extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
+                // DriveAuto grab3 = new DriveAuto(
+                // new Pose2d(1.25, 0, Rotation2d.fromDegrees(0)),
+                // driveSubsystem);
+
                 DriveAuto3 grab2 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
-                                driveSubsystem);
-                DriveAuto3 grab3 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
-                                driveSubsystem);
-                DriveAuto7 goToGoal1 = new DriveAuto7(
-                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
-                                driveSubsystem);
-                DriveAuto7 goToGoal2 = new DriveAuto7(
-                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
+                                new Pose2d(1.60, 0, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
 
-                DriveAuto2 goToGoal3 = new DriveAuto2(
-                                new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
+                DriveAuto2 goToGoal1 = new DriveAuto2(
+                                new Pose2d(5.8, -1, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
-                // DriveAuto goToGoal4 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
-
-                DriveAuto2 goToGoal4 = new DriveAuto2(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-50)),
+                DriveAuto goToGoal2 = new DriveAuto(
+                                new Pose2d(1.60, 0, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
 
-                // DriveAuto goToGoal5 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
-
-                DriveAuto goToGoal5 = new DriveAuto(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
-                                driveSubsystem);
-
-                SequentialCommandGroup path1 = new SequentialCommandGroup(
-                                // grab2
-                                // ,
-                                grab3);
+                SequentialCommandGroup path1 = new SequentialCommandGroup(grab2);
                 ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
                                 charge1,
                                 load1,
@@ -116,20 +91,6 @@ public class MachoGrande2 extends SequentialCommandGroup {
                                 load2,
                                 path2);
 
-                WaitCommand waitCommand = new WaitCommand(0);
-
-                SequentialCommandGroup path3 = new SequentialCommandGroup(
-                                goToGoal3,
-                                // waitCommand
-                                // ,
-                                // goToGoal4
-                                // ,
-                                goToGoal5);
-                ParallelRaceGroup travelPathAndLoad3 = new ParallelRaceGroup(
-                                charge3,
-                                load3,
-                                path3);
-
                 addCommands(
                                 resetGyro,
                                 resetOdometry,
@@ -139,8 +100,6 @@ public class MachoGrande2 extends SequentialCommandGroup {
                                 travelPathAndLoad1,
                                 shootHigh1,
                                 travelPathAndLoad2,
-                                shootHigh2,
-                                travelPathAndLoad3,
-                                shootHigh3);
+                                shootHigh2);
         }
 }
