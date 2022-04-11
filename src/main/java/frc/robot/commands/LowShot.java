@@ -26,7 +26,7 @@ public class LowShot extends ParallelCommandGroup {
     InstantCommand powerHood = new InstantCommand(poweredHoodSubsystem::Off, poweredHoodSubsystem);
     InstantCommand setAngle = new InstantCommand(pincerSubsystem::PincerOpen, pincerSubsystem);
     WaitUntilCommand waitUntilShooterAtSpeed = new WaitUntilCommand(() -> shooterSubsystem
-        .getSpeed() >= Constants.Shooter.kHighShotRPM == true);
+        .getSpeed() >= Constants.Shooter.kLowShotRPM == true);
     RunCommand singulatorFire = new RunCommand(() -> singulatorSubsystem.SpinForward(), singulatorSubsystem);
     RunCommand liftIn = (new RunCommand(() -> lifterSubsystem.SpinForwards(), lifterSubsystem));
     RunCommand intakeIn = (new RunCommand(() -> intakeSubsystem.SpinForwards(), intakeSubsystem));

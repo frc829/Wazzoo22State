@@ -13,7 +13,7 @@ import frc.robot.subsystems.PoweredHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SingulatorSubsystem;
 
-public class ChargeShootFromDistance extends CommandBase {
+public class ChargeShootFromDistanceAndStop extends CommandBase {
 
   private final ShooterSubsystem shooterSubsystem;
   private final LimelightSubsystem limelightSubsystem;
@@ -26,7 +26,7 @@ public class ChargeShootFromDistance extends CommandBase {
   private double distanceToGoal;
   private double shooterSpeed;
 
-  public ChargeShootFromDistance(
+  public ChargeShootFromDistanceAndStop(
       ShooterSubsystem shooterSubsystem,
       LimelightSubsystem limelightSubsystem,
       PincerSubsystem pincerSubsystem,
@@ -52,7 +52,6 @@ public class ChargeShootFromDistance extends CommandBase {
 
     distanceToGoal = limelightSubsystem.getGoalDistance();
 
-    // Do some fancy math here to figure out shooter rpm;
     if (limelightSubsystem.getGoalDistance() == 0) {
       this.shooterSpeed = 2900;
     } else {
@@ -87,7 +86,7 @@ public class ChargeShootFromDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return this.shooterSubsystem.getSpeed() >= this.shooterSpeed;
 
   }
 }

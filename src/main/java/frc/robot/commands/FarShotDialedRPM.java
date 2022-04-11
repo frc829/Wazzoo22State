@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LifterSubsystem;
 import frc.robot.subsystems.PincerSubsystem;
@@ -26,8 +25,7 @@ public class FarShotDialedRPM extends ParallelCommandGroup {
     RunCommand chargeHigh = new RunCommand(() -> shooterSubsystem.setSpeedDialed(RPM), shooterSubsystem);
     InstantCommand setAngle = new InstantCommand(pincerSubsystem::PincerOpen, pincerSubsystem);
     InstantCommand powerHood = new InstantCommand(poweredHoodSubsystem::SpinForwards, poweredHoodSubsystem);
-    WaitUntilCommand waitUntilShooterAtSpeed = new WaitUntilCommand(() -> shooterSubsystem
-        .getSpeed() >= RPM / Constants.Shooter.kShooterRPMToTicksPerDS == true);
+    WaitUntilCommand waitUntilShooterAtSpeed = new WaitUntilCommand(() -> ((shooterSubsystem.getSpeed()) >= RPM) == true);
     RunCommand singulatorFire = new RunCommand(() -> singulatorSubsystem.SpinForward(), singulatorSubsystem);
     RunCommand liftIn = (new RunCommand(() -> lifterSubsystem.SpinForwards(), lifterSubsystem));
     RunCommand intakeIn = (new RunCommand(() -> intakeSubsystem.SpinForwards(), intakeSubsystem));

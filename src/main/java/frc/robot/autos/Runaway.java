@@ -12,12 +12,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.DriveAuto2;
-import frc.robot.commands.DriveAuto3;
-import frc.robot.commands.DriveAuto5;
-import frc.robot.commands.DriveAuto6;
-import frc.robot.commands.DriveAuto7;
-import frc.robot.commands.DriveAuto8;
+import frc.robot.commands.DriveAutoCappedSpeed;
+import frc.robot.commands.DriveAutoCappedSpeedSlowerRot;
+import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
@@ -43,18 +40,6 @@ public class Runaway extends SequentialCommandGroup {
                         PincerSubsystem pincerSubsystem,
                         PoweredHoodSubsystem poweredHoodSubsystem) {
 
-                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
-                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
-                ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                                .withTimeout(1.2);
-                InstantCommand turnShooterOn = new InstantCommand(() -> shooterSubsystem.setSpeedFar(),
-                                driveSubsystem);
-                ParallelRaceGroup shootHigh2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 3600)
-                                                .withTimeout(2);
                 InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
                 InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                                 driveSubsystem);
@@ -64,42 +49,54 @@ public class Runaway extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                // DriveAuto grab3 = new DriveAuto(
-                // new Pose2d(1.25, 0, Rotation2d.fromDegrees(0)),
-                // driveSubsystem);
+                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                Load load3 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
+                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
+                RunCommand charge3 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
 
-                DriveAuto3 grab2 = new DriveAuto3(
-                                new Pose2d(1.60, 0, Rotation2d.fromDegrees(13)),
+                RunCommand stopDrive1 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
+                RunCommand stopDrive2 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
+
+                WaitCommand killTravel1 = new WaitCommand(2.5);
+                WaitCommand killTravel2 = new WaitCommand(2.5);
+                WaitCommand killTravel3 = new WaitCommand(2.5);
+
+                WaitCommand killShoot1 = new WaitCommand(1.2);
+                WaitCommand killShoot2 = new WaitCommand(5);
+
+                FarShotDialedRPM shooter1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+                FarShotDialedRPM shooter2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+
+                DriveAutoFasterLinearSpeed path1 = new DriveAutoFasterLinearSpeed(
+                                new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
+                                driveSubsystem);
+                DriveAutoCappedSpeedSlowerRot path2 = new DriveAutoCappedSpeedSlowerRot(
+                                new Pose2d(5.65, -1, Rotation2d.fromDegrees(13)),
+                                driveSubsystem);
+                DriveAuto path3 = new DriveAuto(
+                                new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
 
-                DriveAuto2 goToGoal1 = new DriveAuto2(
-                                new Pose2d(5.8, -1, Rotation2d.fromDegrees(13)),
-                                driveSubsystem);
-                DriveAuto goToGoal2 = new DriveAuto(
-                                new Pose2d(1.60, 0, Rotation2d.fromDegrees(13)),
-                                driveSubsystem);
+                ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
+                ParallelRaceGroup grab34 = new ParallelRaceGroup(charge2, load2, path2, killTravel2);
+                ParallelRaceGroup goShoot34 = new ParallelRaceGroup(charge3, load3, path3, killTravel3);
 
-                SequentialCommandGroup path1 = new SequentialCommandGroup(grab2);
-                ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
-                                charge1,
-                                load1,
-                                path1);
-
-                SequentialCommandGroup path2 = new SequentialCommandGroup(goToGoal1, goToGoal2);
-                ParallelRaceGroup travelPathAndLoad2 = new ParallelRaceGroup(
-                                charge2,
-                                load2,
-                                path2);
+                ParallelRaceGroup shoot12 = new ParallelRaceGroup(shooter1, stopDrive1, killShoot1);
+                ParallelRaceGroup shoot34 = new ParallelRaceGroup(shooter2, stopDrive2, killShoot2);
 
                 addCommands(
                                 resetGyro,
                                 resetOdometry,
                                 setFieldCentric,
                                 setAbsolute,
-                                turnShooterOn,
-                                travelPathAndLoad1,
-                                shootHigh1,
-                                travelPathAndLoad2,
-                                shootHigh2);
+                                grab2,
+                                shoot12,
+                                grab34,
+                                goShoot34,
+                                shoot34);
         }
 }

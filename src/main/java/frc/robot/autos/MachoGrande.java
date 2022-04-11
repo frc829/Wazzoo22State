@@ -10,14 +10,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.DriveAuto2;
-import frc.robot.commands.DriveAuto3;
-import frc.robot.commands.DriveAuto5;
-import frc.robot.commands.DriveAuto6;
-import frc.robot.commands.DriveAuto7;
-import frc.robot.commands.DriveAuto8;
+import frc.robot.commands.DriveAutoCappedSpeed;
+import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
@@ -69,33 +64,19 @@ public class MachoGrande extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                DriveAuto3 grab2 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
-                                driveSubsystem);
-                DriveAuto3 grab3 = new DriveAuto3(
+                DriveAutoFasterLinearSpeed grab3 = new DriveAutoFasterLinearSpeed(
                                 new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
                                 driveSubsystem);
-                DriveAuto7 goToGoal1 = new DriveAuto7(
+                DriveAuto goToGoal1 = new DriveAuto(
                                 new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
-                DriveAuto7 goToGoal2 = new DriveAuto7(
+                DriveAuto goToGoal2 = new DriveAuto(
                                 new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
-                DriveAuto2 goToGoal3 = new DriveAuto2(
+                DriveAutoCappedSpeed goToGoal3 = new DriveAutoCappedSpeed(
                                 new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
-                // DriveAuto goToGoal4 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
-
-                DriveAuto2 goToGoal4 = new DriveAuto2(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-50)),
-                                driveSubsystem);
-
-                // DriveAuto goToGoal5 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
 
                 DriveAuto goToGoal5 = new DriveAuto(
                                 new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
@@ -116,7 +97,6 @@ public class MachoGrande extends SequentialCommandGroup {
                                 load2,
                                 path2);
 
-                WaitCommand waitCommand = new WaitCommand(0);
 
                 SequentialCommandGroup path3 = new SequentialCommandGroup(
                                 goToGoal3,

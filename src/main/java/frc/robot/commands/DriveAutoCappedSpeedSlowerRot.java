@@ -9,9 +9,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveAuto7 extends CommandBase {
+public class DriveAutoCappedSpeedSlowerRot extends CommandBase {
   private final DriveSubsystem driveSubSystem;
   private final PIDController xController;
   private final PIDController yController;
@@ -25,10 +27,10 @@ public class DriveAuto7 extends CommandBase {
   private double yOutput = 0;
   private double thetaOutput = 0;
 
-  public DriveAuto7(Pose2d targetPosition, DriveSubsystem driveSubsystem) {
-    xController = new PIDController(1.0, 0, 0);
+  public DriveAutoCappedSpeedSlowerRot(Pose2d targetPosition, DriveSubsystem driveSubsystem) {
+    xController = new PIDController(AutoConstants.X.kP, 0, 0);
     xController.setTolerance(0.05);
-    yController = new PIDController(1.0, 0, 0);
+    yController = new PIDController(AutoConstants.Y.kP, 0, 0);
     yController.setTolerance(0.05);
 
     this.thetaController = new PIDController(
@@ -50,8 +52,8 @@ public class DriveAuto7 extends CommandBase {
   @Override
   public void initialize() {
     SmartDashboard.putBoolean("Drive Stopped by Auto", false);
-    this.xController.setSetpoint(this.targetPosition.getX());
-    this.yController.setSetpoint(this.targetPosition.getY());
+    this.xController.setSetpoint(targetPosition.getX());
+    this.yController.setSetpoint(targetPosition.getY());
     this.thetaController.setSetpoint(this.targetPosition.getRotation().getDegrees());
   }
 
@@ -63,6 +65,13 @@ public class DriveAuto7 extends CommandBase {
     this.xOutput = xController.calculate(this.currentPosition.getX());
     this.yOutput = yController.calculate(this.currentPosition.getY());
     this.thetaOutput = this.thetaController.calculate(this.currentPosition.getRotation().getDegrees());
+
+    xOutput = (Math.abs(xOutput) > Constants.AutoConstants.maxSpeed)
+        ? Math.signum(xOutput) * Constants.AutoConstants.maxSpeed
+        : xOutput;
+    yOutput = (Math.abs(yOutput) > Constants.AutoConstants.maxSpeed)
+        ? Math.signum(yOutput) * Constants.AutoConstants.maxSpeed
+        : yOutput;
 
     SwerveModuleState[] swerveModuleStates = this.driveSubSystem.GetModuleStates(-this.xOutput, -this.yOutput,
         this.thetaOutput);

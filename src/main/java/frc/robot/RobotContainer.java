@@ -24,7 +24,7 @@ import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
 import frc.robot.autos.Runaway;
 import frc.robot.autos.Sawmill;
-import frc.robot.autos.sequences.Aim;
+import frc.robot.autos.sequences.AimAndShoot;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.Eject;
 import frc.robot.commands.HighShot;
@@ -189,7 +189,7 @@ public class RobotContainer {
                                 driverControls,
                                 Constants.OI.Buttons.LB)
                                                 .whenHeld(
-                                                new Aim(driveSubsystem, limelightSubsystem,
+                                                new AimAndShoot(driveSubsystem, limelightSubsystem,
                                                 singulatorSubsystem, lifterSubsystem, intakeSubsystem,
                                                 shooterSubsystem, pincerSubsystem, poweredHoodSubsystem));        
                                                 

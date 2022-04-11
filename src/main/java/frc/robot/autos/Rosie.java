@@ -12,12 +12,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.DriveAuto2;
-import frc.robot.commands.DriveAuto3;
-import frc.robot.commands.DriveAuto5;
-import frc.robot.commands.DriveAuto6;
-import frc.robot.commands.DriveAuto7;
-import frc.robot.commands.DriveAuto8;
+import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
@@ -32,7 +27,6 @@ import frc.robot.subsystems.SingulatorSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Rosie extends SequentialCommandGroup {
-        /** Creates a new OldFaithful. */
 
         public Rosie(
                         DriveSubsystem driveSubsystem,
@@ -43,23 +37,6 @@ public class Rosie extends SequentialCommandGroup {
                         PincerSubsystem pincerSubsystem,
                         PoweredHoodSubsystem poweredHoodSubsystem) {
 
-                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                Load load3 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
-                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
-                RunCommand charge3 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(3600), shooterSubsystem);
-                ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                                .withTimeout(1.2);
-                InstantCommand turnShooterOn = new InstantCommand(() -> shooterSubsystem.setSpeedFar(),
-                                driveSubsystem);
-                ParallelRaceGroup shootHigh2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                                .withTimeout(2);
-                ParallelRaceGroup shootHigh3 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 3600)
-                                                .withTimeout(1);
                 InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
                 InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                                 driveSubsystem);
@@ -69,79 +46,52 @@ public class Rosie extends SequentialCommandGroup {
                                 .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                DriveAuto3 grab2 = new DriveAuto3(
-                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(0)),
-                                driveSubsystem);
-                DriveAuto3 grab3 = new DriveAuto3(
+                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                Load load2 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+
+                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
+                RunCommand charge2 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
+
+
+                RunCommand stopDrive1 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
+                RunCommand stopDrive2 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
+
+                WaitCommand killTravel1 = new WaitCommand(2);
+                WaitCommand killTravel2 = new WaitCommand(2);
+
+                WaitCommand killShoot1 = new WaitCommand(1.2);
+                WaitCommand killShoot2 = new WaitCommand(0.6);
+
+                FarShotDialedRPM shooter1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+
+                FarShotDialedRPM shooter2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+
+                DriveAutoFasterLinearSpeed path1 = new DriveAutoFasterLinearSpeed(
                                 new Pose2d(1.06, 0, Rotation2d.fromDegrees(-13)),
                                 driveSubsystem);
-                DriveAuto7 goToGoal1 = new DriveAuto7(
-                                new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
-                                driveSubsystem);
-                DriveAuto7 goToGoal2 = new DriveAuto7(
+                DriveAuto path2 = new DriveAuto(
                                 new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
-                DriveAuto2 goToGoal3 = new DriveAuto2(
-                                new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
-                                driveSubsystem);
-                // DriveAuto goToGoal4 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
+                ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
+                ParallelRaceGroup grab3 = new ParallelRaceGroup(charge2, load2, path2, killTravel2);
 
-                DriveAuto2 goToGoal4 = new DriveAuto2(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-50)),
-                                driveSubsystem);
 
-                // DriveAuto goToGoal5 = new DriveAuto(
-                // new Pose2d(-0.2, -2.70, Rotation2d.fromDegrees(-50)),
-                // driveSubsystem);
+                ParallelRaceGroup shoot12 = new ParallelRaceGroup(shooter1, stopDrive1, killShoot1);
+                ParallelRaceGroup shoot3 = new ParallelRaceGroup(shooter2, stopDrive2, killShoot2);
 
-                DriveAuto goToGoal5 = new DriveAuto(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
-                                driveSubsystem);
-
-                SequentialCommandGroup path1 = new SequentialCommandGroup(
-                                // grab2
-                                // ,
-                                grab3);
-                ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
-                                charge1,
-                                load1,
-                                path1);
-
-                SequentialCommandGroup path2 = new SequentialCommandGroup(goToGoal1, goToGoal2);
-                ParallelRaceGroup travelPathAndLoad2 = new ParallelRaceGroup(
-                                charge2,
-                                load2,
-                                path2);
-
-                WaitCommand waitCommand = new WaitCommand(0);
-
-                SequentialCommandGroup path3 = new SequentialCommandGroup(
-                                goToGoal3,
-                                // waitCommand
-                                // ,
-                                // goToGoal4
-                                // ,
-                                goToGoal5);
-                ParallelRaceGroup travelPathAndLoad3 = new ParallelRaceGroup(
-                                charge3,
-                                load3,
-                                path3);
 
                 addCommands(
                                 resetGyro,
                                 resetOdometry,
                                 setFieldCentric,
                                 setAbsolute,
-                                turnShooterOn,
-                                travelPathAndLoad1,
-                                shootHigh1,
-                                travelPathAndLoad2,
-                                shootHigh2
-                                // travelPathAndLoad3,
-                                // shootHigh3
+                                grab2,
+                                shoot12,
+                                grab3,
+                                shoot3
                                 );
         }
 }

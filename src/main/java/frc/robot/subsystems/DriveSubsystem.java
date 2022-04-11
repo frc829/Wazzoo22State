@@ -165,6 +165,11 @@ public class DriveSubsystem extends SubsystemBase {
     // SmartDashboard.putNumber("SwerveAngles3", this.backRightSwerveModule.currentTurnPosition);
     // SmartDashboard.putNumber("AbsoluteGyroReference", this.absoluteGyroReference);
 
+SmartDashboard.putString("CanCoder33", this.frontLeftSwerveModule.getCanCoderStatus());
+SmartDashboard.putString("CanCoder32", this.frontRightSwerveModule.getCanCoderStatus());
+SmartDashboard.putString("CanCoder31", this.backLeftSwerveModule.getCanCoderStatus());
+SmartDashboard.putString("CanCoder30", this.backRightSwerveModule.getCanCoderStatus());
+
 
   }
 
@@ -405,6 +410,10 @@ public class DriveSubsystem extends SubsystemBase {
               / Constants.SwerveDrive.Module.General.MPSToTickPerDS,
           Rotation2d.fromDegrees(this.turnEncoder.getAbsolutePosition()));
 
+    }
+
+    public String getCanCoderStatus(){
+      return this.turnEncoder.getMagnetFieldStrength().toString();
     }
 
     public double getModuleAngle() {

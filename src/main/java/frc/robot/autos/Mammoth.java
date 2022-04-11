@@ -8,8 +8,10 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveAuto;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
 import frc.robot.subsystems.DriveSubsystem;
@@ -24,7 +26,7 @@ import frc.robot.subsystems.SingulatorSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Mammoth extends SequentialCommandGroup {
-        /** Creates a new OldFaithful. */
+
 
         public Mammoth(
                         DriveSubsystem driveSubsystem,
@@ -32,39 +34,44 @@ public class Mammoth extends SequentialCommandGroup {
                         LifterSubsystem lifterSubsystem,
                         SingulatorSubsystem singulatorSubsystem,
                         ShooterSubsystem shooterSubsystem,
-                        PincerSubsystem pincerSubsystem, 
+                        PincerSubsystem pincerSubsystem,
                         PoweredHoodSubsystem poweredHoodSubsystem) {
-
-                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
-                ParallelRaceGroup shootHigh1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900)
-                                .withTimeout(1.3);
 
                 InstantCommand resetGyro = new InstantCommand(() -> driveSubsystem.resetGyro(), driveSubsystem);
                 InstantCommand resetOdometry = new InstantCommand(() -> driveSubsystem.resetOdometry(new Pose2d()),
                                 driveSubsystem);
                 InstantCommand setFieldCentric = new InstantCommand(() -> driveSubsystem.setFieldCentric(true),
                                 driveSubsystem);
-
-                DriveAuto grab2 = new DriveAuto(
-                                new Pose2d(1.10, 0, Rotation2d.fromDegrees(0)),
-                                driveSubsystem);
-                DriveAuto grab3 = new DriveAuto(
-                                new Pose2d(1.10, 0, Rotation2d.fromDegrees(13)),
+                InstantCommand setAbsolute = new InstantCommand(() -> driveSubsystem
+                                .setAbsoluteOdometry(new Pose2d(7.651, 1.821, Rotation2d.fromDegrees(-90))),
                                 driveSubsystem);
 
-                SequentialCommandGroup path1 = new SequentialCommandGroup(grab2, grab3);
-                ParallelRaceGroup travelPathAndLoad1 = new ParallelRaceGroup(
-                                load1,
-                                path1);
+                Load load1 = new Load(lifterSubsystem, intakeSubsystem, singulatorSubsystem);
+                RunCommand charge1 = new RunCommand(() -> shooterSubsystem.setSpeedDialed(2900), shooterSubsystem);
 
-                
+                RunCommand stopDrive1 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
+
+                WaitCommand killTravel1 = new WaitCommand(2);
+
+                WaitCommand killShoot1 = new WaitCommand(1.2);
+
+                FarShotDialedRPM shooter1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+
+                DriveAutoFasterLinearSpeed path1 = new DriveAutoFasterLinearSpeed(
+                                new Pose2d(1.06, 0, Rotation2d.fromDegrees(13)),
+                                driveSubsystem);
+
+                ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
+
+                ParallelRaceGroup shoot12 = new ParallelRaceGroup(shooter1, stopDrive1, killShoot1);
 
                 addCommands(
                                 resetGyro,
                                 resetOdometry,
                                 setFieldCentric,
-                                travelPathAndLoad1,
-                                shootHigh1);
+                                setAbsolute,
+                                grab2,
+                                shoot12);
         }
 }
