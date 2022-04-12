@@ -15,14 +15,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.GabesDadsAuto;
+import frc.robot.autos.GabesDadsAutoWithLimeLight;
 import frc.robot.autos.Gawrsh;
+import frc.robot.autos.GawrshWithLimeLight;
 import frc.robot.autos.MachoGrande;
-import frc.robot.autos.MachoGrande2;
+import frc.robot.autos.MachoGrandeWithLimeLight;
 import frc.robot.autos.Mammoth;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
 import frc.robot.autos.Runaway;
+import frc.robot.autos.RunawayWithLimeLight;
 import frc.robot.autos.Sawmill;
 import frc.robot.autos.sequences.AimAndShoot;
 import frc.robot.commands.DriveManual;
@@ -124,15 +127,17 @@ public class RobotContainer {
                 Rosie rosie = new Rosie(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem,
                                 shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
 
-                MachoGrande machoGrande = new MachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
-
                 GabesDadsAuto gabesDadsAuto = new GabesDadsAuto(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
-
+                GabesDadsAutoWithLimeLight gabesDadsAutoWithLimeLight = new GabesDadsAutoWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
+                
                 Gawrsh gawrsh = new Gawrsh(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+                GawrshWithLimeLight gawrshWithLimeLight = new GawrshWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
 
-                MachoGrande2 machoGrande2 = new MachoGrande2(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
-
+                MachoGrande machoGrande = new MachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+                MachoGrandeWithLimeLight machoGrandeWithLimeLight = new MachoGrandeWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
+                MachoGrandeWithLimeLight machoGrandeWithLimeLight2 = new MachoGrandeWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
                 Runaway runaway = new Runaway(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
+                RunawayWithLimeLight runawayWithLimeLight = new RunawayWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
 
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
@@ -140,10 +145,14 @@ public class RobotContainer {
                 m_chooser.addOption("Mammoth", mammoth);
                 m_chooser.addOption("Rosie", rosie);
                 m_chooser.addOption("Macho Grande", machoGrande);
-                m_chooser.addOption("Macho Grande2", machoGrande2);
+                m_chooser.addOption("Macho Grande LimeLight", machoGrandeWithLimeLight);
+                m_chooser.addOption("Macho Grande LimeLight2", machoGrandeWithLimeLight2);
                 m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
+                m_chooser.addOption("Gabe's Dad's Auto Limelight", gabesDadsAutoWithLimeLight);
                 m_chooser.addOption("Gawrsh", gawrsh);
+                m_chooser.addOption("Gawrsh LimeLight", gawrshWithLimeLight);
                 m_chooser.addOption("Runaway", runaway);
+                m_chooser.addOption("Runaway Limelight", runawayWithLimeLight);
                 m_chooser.addOption("Norm", norm);
 
                 SmartDashboard.putData("AutoChooser", m_chooser);
@@ -230,12 +239,6 @@ public class RobotContainer {
                                                 .whenHeld(new LowShot(shooterSubsystem, singulatorSubsystem,
                                                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem));
 
-
-                // new JoystickButton(
-                //                 operatorControls,
-                //                 Constants.OI.Buttons.START)
-                //                                 .whenHeld(new Shoot(shooterSubsystem, singulatorSubsystem,
-                //                                                 lifterSubsystem, intakeSubsystem));
 
                 new JoystickButton(
                                 operatorControls,

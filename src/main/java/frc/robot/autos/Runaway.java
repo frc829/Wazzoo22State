@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
-import frc.robot.commands.DriveAutoCappedSpeed;
 import frc.robot.commands.DriveAutoCappedSpeedSlowerRot;
 import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
