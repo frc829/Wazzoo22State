@@ -80,9 +80,8 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 lifterSubsystem, intakeSubsystem, shooterSubsystem, pincerSubsystem,
                                 poweredHoodSubsystem);
 
-                AimAndShoot aimAndShoot2 = new AimAndShoot(driveSubsystem, limelightSubsystem, singulatorSubsystem,
-                                lifterSubsystem, intakeSubsystem, shooterSubsystem, pincerSubsystem,
-                                poweredHoodSubsystem);
+                FarShotDialedRPM aimAndShoot2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
+                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
 
                 DriveAutoFasterLinearSpeed path1 = new DriveAutoFasterLinearSpeed(
                                 new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
@@ -115,8 +114,8 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 shoot12,
                                 grab34,
                                 goShoot34,
-                                shoot34, 
-                                grab5, 
+                                shoot34,
+                                grab5,
                                 shoot5);
         }
 }
