@@ -72,6 +72,8 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                 WaitCommand killShoot2 = new WaitCommand(1.2);
                 WaitCommand killShoot3 = new WaitCommand(5);
 
+                WaitCommand killTurn = new WaitCommand(1.5);
+
                 FarShotDialedRPM shooter1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
 
@@ -98,13 +100,14 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 new Pose2d(1.25, 0.10, Rotation2d.fromDegrees(55)),
                                 driveSubsystem);
                 DriveAuto path4 = new DriveAuto(
-                                new Pose2d(-0.5, 2.75, Rotation2d.fromDegrees(55)),
+                                new Pose2d(-0.64, 2.76, Rotation2d.fromDegrees(55)),
                                 driveSubsystem);
 
                 ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
                 ParallelRaceGroup grab34 = new ParallelRaceGroup(charge2, load2, path2, killTravel2);
                 ParallelRaceGroup goShoot34 = new ParallelRaceGroup(charge3, load3, path3, killTravel3);
                 ParallelRaceGroup grab5 = new ParallelRaceGroup(charge4, load4, path4, killTravel4);
+                ParallelRaceGroup turn = new ParallelRaceGroup(path35, killTurn);
 
                 ParallelRaceGroup shoot12 = new ParallelRaceGroup(shooter1, stopDrive1, killShoot1);
                 ParallelRaceGroup shoot34 = new ParallelRaceGroup(aimAndShoot1, killShoot2);
@@ -120,7 +123,7 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 grab34,
                                 goShoot34,
                                 shoot34,
-                                path35, 
+                                turn, 
                                 path375,
                                 grab5,
                                 shoot5);
