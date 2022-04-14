@@ -27,6 +27,7 @@ import frc.robot.autos.Rosie;
 import frc.robot.autos.Runaway;
 import frc.robot.autos.RunawayWithLimeLight;
 import frc.robot.autos.Sawmill;
+import frc.robot.autos.ShirleyWithLimeLight;
 import frc.robot.autos.sequences.AimAndShoot;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.Eject;
@@ -134,10 +135,11 @@ public class RobotContainer {
                 GawrshWithLimeLight gawrshWithLimeLight = new GawrshWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
 
                 MachoGrande machoGrande = new MachoGrande(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
-                MachoGrandeWithLimeLight machoGrandeWithLimeLight = new MachoGrandeWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
                 MachoGrandeWithLimeLight machoGrandeWithLimeLight2 = new MachoGrandeWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
                 Runaway runaway = new Runaway(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem);
                 RunawayWithLimeLight runawayWithLimeLight = new RunawayWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
+
+                ShirleyWithLimeLight shirleyWithLimeLight = new ShirleyWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
 
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
@@ -145,14 +147,15 @@ public class RobotContainer {
                 m_chooser.addOption("Mammoth", mammoth);
                 m_chooser.addOption("Rosie", rosie);
                 m_chooser.addOption("Macho Grande", machoGrande);
-                m_chooser.addOption("Macho Grande LimeLight", machoGrandeWithLimeLight);
-                m_chooser.addOption("Macho Grande LimeLight2", machoGrandeWithLimeLight2);
+                //m_chooser.addOption("Macho Grande LimeLight", machoGrandeWithLimeLight);
+                m_chooser.addOption("Macho Grande LimeLight", machoGrandeWithLimeLight2);
                 m_chooser.addOption("Gabe's Dad's Auto", gabesDadsAuto);
                 m_chooser.addOption("Gabe's Dad's Auto Limelight", gabesDadsAutoWithLimeLight);
                 m_chooser.addOption("Gawrsh", gawrsh);
                 m_chooser.addOption("Gawrsh LimeLight", gawrshWithLimeLight);
                 m_chooser.addOption("Runaway", runaway);
                 m_chooser.addOption("Runaway Limelight", runawayWithLimeLight);
+                m_chooser.addOption("Shirley Limelight", shirleyWithLimeLight);
                 m_chooser.addOption("Norm", norm);
 
                 SmartDashboard.putData("AutoChooser", m_chooser);

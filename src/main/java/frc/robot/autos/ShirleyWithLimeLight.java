@@ -62,7 +62,6 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
 
                 RunCommand stopDrive1 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
                 RunCommand stopDrive2 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
-                RunCommand stopDrive3 = new RunCommand(() -> driveSubsystem.stopDrive(), driveSubsystem);
 
                 WaitCommand killTravel1 = new WaitCommand(2.5);
                 WaitCommand killTravel2 = new WaitCommand(2.5);
@@ -81,19 +80,25 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 poweredHoodSubsystem);
 
                 FarShotDialedRPM aimAndShoot2 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
-                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
+                                lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);
 
                 DriveAutoFasterLinearSpeed path1 = new DriveAutoFasterLinearSpeed(
-                                new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
+                                new Pose2d(1.35, 0, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
                 DriveAutoCappedSpeedSlowerRot path2 = new DriveAutoCappedSpeedSlowerRot(
                                 new Pose2d(5.68, -1, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
-                DriveAuto path3 = new DriveAuto(
-                                new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
+                DriveAutoCappedSpeedSlowerRot path3 = new DriveAutoCappedSpeedSlowerRot(
+                                new Pose2d(1.35, 0, Rotation2d.fromDegrees(13)),
+                                driveSubsystem);
+                DriveAuto path35 = new DriveAuto(
+                                new Pose2d(1.35, 0, Rotation2d.fromDegrees(55)),
+                                driveSubsystem);
+                DriveAuto path375 = new DriveAuto(
+                                new Pose2d(1.25, 0.10, Rotation2d.fromDegrees(55)),
                                 driveSubsystem);
                 DriveAuto path4 = new DriveAuto(
-                                new Pose2d(2.63, 2.65, Rotation2d.fromDegrees(55)),
+                                new Pose2d(-0.5, 2.75, Rotation2d.fromDegrees(55)),
                                 driveSubsystem);
 
                 ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
@@ -102,8 +107,8 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                 ParallelRaceGroup grab5 = new ParallelRaceGroup(charge4, load4, path4, killTravel4);
 
                 ParallelRaceGroup shoot12 = new ParallelRaceGroup(shooter1, stopDrive1, killShoot1);
-                ParallelRaceGroup shoot34 = new ParallelRaceGroup(aimAndShoot1, stopDrive2, killShoot2);
-                ParallelRaceGroup shoot5 = new ParallelRaceGroup(aimAndShoot2, stopDrive3, killShoot3);
+                ParallelRaceGroup shoot34 = new ParallelRaceGroup(aimAndShoot1, killShoot2);
+                ParallelRaceGroup shoot5 = new ParallelRaceGroup(aimAndShoot2, stopDrive2, killShoot3);
 
                 addCommands(
                                 resetGyro,
@@ -115,6 +120,8 @@ public class ShirleyWithLimeLight extends SequentialCommandGroup {
                                 grab34,
                                 goShoot34,
                                 shoot34,
+                                path35, 
+                                path375,
                                 grab5,
                                 shoot5);
         }
