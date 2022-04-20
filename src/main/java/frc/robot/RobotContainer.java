@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.autos.Cliff;
 import frc.robot.autos.GabesDadsAuto;
 import frc.robot.autos.GabesDadsAutoWithLimeLight;
 import frc.robot.autos.Gawrsh;
@@ -21,6 +22,7 @@ import frc.robot.autos.GawrshWithLimeLight;
 import frc.robot.autos.MachoGrande;
 import frc.robot.autos.MachoGrandeWithLimeLight;
 import frc.robot.autos.Mammoth;
+import frc.robot.autos.NewOldFaithful;
 import frc.robot.autos.Norm;
 import frc.robot.autos.OldFaithful;
 import frc.robot.autos.Rosie;
@@ -141,6 +143,10 @@ public class RobotContainer {
 
                 ShirleyWithLimeLight shirleyWithLimeLight = new ShirleyWithLimeLight(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
 
+                Cliff cliff = new Cliff(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, limelightSubsystem);
+
+                NewOldFaithful newOldFaithful = new NewOldFaithful(driveSubsystem, intakeSubsystem, lifterSubsystem, singulatorSubsystem, shooterSubsystem, pincerSubsystem, poweredHoodSubsystem, intakeArmSubsystem);
+                
                 // Autonomous Commands to Chooser
                 m_chooser.addOption("Old Faithful", oldFaithful);
                 m_chooser.addOption("Sawmill", sawmill);
@@ -157,6 +163,10 @@ public class RobotContainer {
                 m_chooser.addOption("Runaway Limelight", runawayWithLimeLight);
                 m_chooser.addOption("Shirley Limelight", shirleyWithLimeLight);
                 m_chooser.addOption("Norm", norm);
+                m_chooser.addOption("Cliff", cliff);
+                m_chooser.addOption("NewOldFaithful", newOldFaithful);
+                
+
 
                 SmartDashboard.putData("AutoChooser", m_chooser);
 
