@@ -27,13 +27,13 @@ public class CameraSubsystem extends SubsystemBase {
           UsbCamera camera = CameraServer.startAutomaticCapture();
           // Set the resolution
           camera.setResolution(320, 240);
-          camera.setFPS(30);
+          camera.setFPS(23);
 
           // Get a CvSink. This will capture Mats from the camera
           CvSink cvSink = CameraServer.getVideo();
           // Setup a CvSource. This will send images back to the Dashboard
           CvSource outputStream = CameraServer.putVideo("Rectangle", 320, 240);
-          outputStream.setFPS(30);
+          outputStream.setFPS(23);
 
           // Mats are very memory expensive. Lets reuse this Mat.
           Mat mat = new Mat();

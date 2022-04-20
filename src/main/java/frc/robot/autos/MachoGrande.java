@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveAuto;
 import frc.robot.commands.DriveAutoCappedSpeedSlowerRot;
+import frc.robot.commands.DriveAutoCappedSpeedSlowerRot2;
 import frc.robot.commands.DriveAutoFasterLinearSpeed;
 import frc.robot.commands.FarShotDialedRPM;
 import frc.robot.commands.Load;
@@ -63,6 +64,7 @@ public class MachoGrande extends SequentialCommandGroup {
 
                 WaitCommand killTravel1 = new WaitCommand(2.5);
                 WaitCommand killTravel2 = new WaitCommand(2.5);
+                WaitCommand killTravel25 = new WaitCommand(0.5);
                 WaitCommand killTravel3 = new WaitCommand(2.5);
                 WaitCommand killTravel4 = new WaitCommand(2.5);
 
@@ -86,16 +88,21 @@ public class MachoGrande extends SequentialCommandGroup {
                                 new Pose2d(-0.27, -2.65, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
-                DriveAutoCappedSpeedSlowerRot path3 = new DriveAutoCappedSpeedSlowerRot(
+                DriveAuto path25 = new DriveAuto(
+                                new Pose2d(-0.20, -2.72, Rotation2d.fromDegrees(-55)),
+                                driveSubsystem);
+
+                DriveAutoCappedSpeedSlowerRot2 path3 = new DriveAutoCappedSpeedSlowerRot2(
                                 new Pose2d(-0.10, -6.98, Rotation2d.fromDegrees(-55)),
                                 driveSubsystem);
 
                 DriveAutoCappedSpeedSlowerRot path4 = new DriveAutoCappedSpeedSlowerRot(
-                                new Pose2d(-2.006, -3.785, Rotation2d.fromDegrees(-80)),
+                                new Pose2d(-2.006, -3.25, Rotation2d.fromDegrees(-80)),
                                 driveSubsystem);
 
                 ParallelRaceGroup grab2 = new ParallelRaceGroup(charge1, load1, path1, killTravel1);
                 ParallelRaceGroup grab3 = new ParallelRaceGroup(charge2, load2, path2, killTravel2);
+                ParallelRaceGroup adjustWheels = new ParallelRaceGroup(path25, killTravel25);
                 ParallelRaceGroup grab45 = new ParallelRaceGroup(charge3, load3, path3, killTravel3);
                 ParallelRaceGroup goShoot45 = new ParallelRaceGroup(charge4, load4, path4, killTravel4);
 
@@ -112,6 +119,7 @@ public class MachoGrande extends SequentialCommandGroup {
                                 shoot12,
                                 grab3,
                                 shoot3,
+                                adjustWheels,
                                 grab45,
                                 goShoot45,
                                 shoot45);

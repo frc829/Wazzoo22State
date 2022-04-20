@@ -53,7 +53,7 @@ public class OldFaithful extends SequentialCommandGroup {
 
                 WaitCommand killTravel1 = new WaitCommand(2);
 
-                WaitCommand killShoot1 = new WaitCommand(1.2);
+                WaitCommand killShoot1 = new WaitCommand(15);
 
                 FarShotDialedRPM shooter1 = new FarShotDialedRPM(shooterSubsystem, singulatorSubsystem,
                                 lifterSubsystem, intakeSubsystem, pincerSubsystem, poweredHoodSubsystem, 2900);

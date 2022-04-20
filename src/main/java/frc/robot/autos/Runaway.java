@@ -74,7 +74,7 @@ public class Runaway extends SequentialCommandGroup {
                                 new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
                 DriveAutoCappedSpeedSlowerRot path2 = new DriveAutoCappedSpeedSlowerRot(
-                                new Pose2d(5.65, -1, Rotation2d.fromDegrees(13)),
+                                new Pose2d(5.68, -1, Rotation2d.fromDegrees(13)),
                                 driveSubsystem);
                 DriveAuto path3 = new DriveAuto(
                                 new Pose2d(1.30, 0, Rotation2d.fromDegrees(13)),
